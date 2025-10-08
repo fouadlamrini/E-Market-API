@@ -23,6 +23,10 @@ connectDB();
 // Chargement des routes
 const routes = require('./routes/routes');
 app.use('/', routes);
+const routes = require('./routes/userRoutes');
+app.use('/user', routes);
+const routes = require('./routes/productRoutes');
+app.use('/product', routes);
 
 // Gestion des erreurs 404
 app.use((req, res, next) => {
