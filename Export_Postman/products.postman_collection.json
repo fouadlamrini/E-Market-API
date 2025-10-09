@@ -1,0 +1,75 @@
+{
+	"info": {
+		"_postman_id": "d0960502-d4d2-490f-a265-b2757fa77b75",
+		"name": "products",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42976608"
+	},
+	"item": [
+		{
+			"name": "createProduct",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fullname\":\"fouad\",\r\n    \"email\":\"test\",\r\n    \"password\":123456789,\r\n    \"role\":\"admin\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/product/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"product",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllProduct",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/product/getAllProduct",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"product",
+						"getAllProduct"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOneProduct",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/product/getOneProduct/68e77b33e7dc81ce77f4a5b2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"product",
+						"getOneProduct",
+						"68e77b33e7dc81ce77f4a5b2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

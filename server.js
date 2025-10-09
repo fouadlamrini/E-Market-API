@@ -6,9 +6,12 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+const logger = require("./middleware/logger");
+
 // Middleware pour parser les requêtes POST (body)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(logger);
 
 // Configuration des vues EJS
 app.set('view engine', 'ejs');
