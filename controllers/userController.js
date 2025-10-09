@@ -36,7 +36,11 @@ async  getAllUsers(req, res) {
 async getUserById(req, res) {
     try {
         const { id } = req.params; 
-        console.log(id)       
+        
+           if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: "Invalid User ID" });
+        }
+
         const user = await User.findById(id); 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -50,6 +54,11 @@ async getUserById(req, res) {
 async deleteUser(req, res) {
     try {
         const { id } = req.params;
+
+           if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: "Invalid User ID" });
+        }
+
         const user = await User.findById(id);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -66,6 +75,9 @@ async updateUser(req, res) {
         const { id } = req.params;
         const { fullname, email, password, role } = req.body;
 
+           if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: "Invalid User ID" });
+        }
         const user = await User.findById(id);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
