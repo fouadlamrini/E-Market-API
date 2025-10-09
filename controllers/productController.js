@@ -42,5 +42,21 @@ async getProductById(req, res) {
     }
 }
 
+async deleteProduct(req, res) {
+    try {
+        const { id } = req.params;
+        const product = await Product.findById(id);
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        await Product.findByIdAndDelete(id);
+        res.status(200).json({ message: "Product deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
 }
 module.exports = ProductController;
