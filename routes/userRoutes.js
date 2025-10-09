@@ -8,12 +8,19 @@ router.post("/", async (req, res) => {
   controller.createUser(req, res);
 });
 router.get("/getAllUser", async (req, res) => {
-  // const controller = new UserController(req, res);
+ 
   controller.getAllUsers(req, res);
 });
 router.get("/getOneUser/:id", async (req, res) => {
-  // const controller = new UserController(req, res);
+  
   controller.getUserById(req, res);
 });
+
+router.delete('/deleteUser/:id', async (req, res) =>{
+  controller.deleteUser(req, res);
+});
+
+router.put('/updateUser/:id', async (req, res) =>{
+  controller.updateUser(req, res); })
 
 module.exports = router;
