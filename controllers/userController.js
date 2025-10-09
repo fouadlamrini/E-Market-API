@@ -55,6 +55,32 @@ async deleteUser(req, res) {
         res.status(500).json({ error: error.message });
     }
 }
+async updateUser(req, res) {
+    try {
+        const { id } = req.params;
+        const { fullname, email, password, role } = req.body;
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+
+        if (fullname !== undefined) user.fullname = fullname;
+        if (email !== undefined) user.email = email;
+        if (password !== undefined) user.password = password;
+        if (role !== undefined) user.role = role;
+
+        const updatedUser = await user.save();
+
+        res.status(200).json({
+            message: "User updated successfully",
+            user: updatedUser
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
 
 
 }
