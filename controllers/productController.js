@@ -57,6 +57,33 @@ async deleteProduct(req, res) {
     }
 }
 
+async updateProduct(req, res) {
+    try {
+        const { id } = req.params;
+        const { title, description, price, stock, category, imageUrl } = req.body;
+
+        const product = await Product.findById(id);
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+        if (title !== undefined) product.title = title;
+        if (description !== undefined) product.description = description;
+        if (price !== undefined) product.price = price;
+        if (stock !== undefined) product.stock = stock;
+        if (category !== undefined) product.category = category;
+        if (imageUrl !== undefined) product.imageUrl = imageUrl;
+
+        const updatedProduct = await product.save();
+
+        res.status(200).json({
+            message: "Product updated successfully",
+            product: updatedProduct
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 
 }
 module.exports = ProductController;
