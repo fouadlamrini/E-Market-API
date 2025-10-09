@@ -1,93 +1,124 @@
 const Product = require("../models/productModel");
-const BaseController = require('../core/BaseController');
+const BaseController = require("../core/BaseController");
 class ProductController extends BaseController {
-async createProduct(req, res) {
-    const {title, description, price, stock, category,imageUrl} = req.body;
-    console.log(req.body);
+  async createProduct(req, res) {
+    const { title, description, price, stock, category, imageUrl } = req.body;
+
     if (!title || !description || !price || !stock || !category) {
-        return res.status(400).json({ error: "title, description, price, stock and category are required" });
-    }
-
-      if (isNaN(price) || isNaN(stock)) {
-        return res.status(400).json({ error: "price and stock must be numeric values" });
-    }
-
-    try {
-        const createProduct = await Product.create({ title, description, price, stock, category, imageUrl });
-        res.status(201).json({
-            message: "Product created successfully",
-            product: createProduct
+      return res
+        .status(400)
+        .json({
+          error: "title, description, price, stock and category are required",
         });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
     }
-}
 
-async  getAllProducts(req, res) {
-    try {
-        const products = await Product.find(); 
-        res.status(200).json(products); 
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+    if (isNaN(price) || isNaN(stock)) {
+      return res
+        .status(400)
+        .json({ error: "price and stock must be numeric values" });
     }
-}
 
-async getProductById(req, res) {
     try {
-        const { id } = req.params; 
-        console.log(id)       
-        const product = await Product.findById(id); 
-        if (!product) {
-            return res.status(404).json({ message: "Product not found" });
+      const createProduct = await Product.create({
+        title,
+        description,
+        price,
+        stock,
+        category,
+        imageUrl,
+      });
+      res.status(201).json({
+        message: "Product created successfully",
+        product: createProduct,
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async getAllProducts(req, res) {
+    try {
+      const products = await Product.find();
+      res.status(200).json(products);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async getProductById(req, res) {
+    try {
+      const { id } = req.params;
+      console.log(id);
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: "Invalid product ID" });
+      }
+
+      const product = await Product.findById(id);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+      res.status(200).json(product);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async deleteProduct(req, res) {
+    try {
+      const { id } = req.params;
+      const product = await Product.findById(id);
+       if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: "Invalid product ID" });
         }
-        res.status(200).json(product);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
 
-async deleteProduct(req, res) {
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+
+      await Product.findByIdAndDelete(id);
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async updateProduct(req, res) {
     try {
-        const { id } = req.params;
-        const product = await Product.findById(id);
-        if (!product) {
-            return res.status(404).json({ message: "Product not found" });
+      const { id } = req.params;
+      const { title, description, price, stock, category, imageUrl } = req.body;
+
+      const product = await Product.findById(id);
+         if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: "Invalid product ID" });
         }
 
-        await Product.findByIdAndDelete(id);
-         res.status(204).send(); 
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+      if (title !== undefined) product.title = title;
+      if (description !== undefined) product.description = description;
+      if (price !== undefined) {
+        if (isNaN(price))
+          return res.status(400).json({ error: "price must be numeric" });
+        product.price = Number(price);
+      }
+      if (stock !== undefined) {
+        if (isNaN(stock))
+          return res.status(400).json({ error: "stock must be numeric" });
+        product.stock = Number(stock);
+      }
+      if (category !== undefined) product.category = category;
+      if (imageUrl !== undefined) product.imageUrl = imageUrl;
+
+      const updatedProduct = await product.save();
+
+      res.status(200).json({
+        message: "Product updated successfully",
+        product: updatedProduct,
+      });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
-}
-
-async updateProduct(req, res) {
-    try {
-        const { id } = req.params;
-        const { title, description, price, stock, category, imageUrl } = req.body;
-
-        const product = await Product.findById(id);
-        if (!product) {
-            return res.status(404).json({ message: "Product not found" });
-        }
-        if (title !== undefined) product.title = title;
-        if (description !== undefined) product.description = description;
-        if (price !== undefined) product.price = price;
-        if (stock !== undefined) product.stock = stock;
-        if (category !== undefined) product.category = category;
-        if (imageUrl !== undefined) product.imageUrl = imageUrl;
-
-        const updatedProduct = await product.save();
-
-        res.status(200).json({
-            message: "Product updated successfully",
-            product: updatedProduct
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
-
-
+  }
 }
 module.exports = ProductController;
