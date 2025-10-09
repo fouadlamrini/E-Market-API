@@ -8,6 +8,10 @@ async createProduct(req, res) {
         return res.status(400).json({ error: "title, description, price, stock and category are required" });
     }
 
+      if (isNaN(price) || isNaN(stock)) {
+        return res.status(400).json({ error: "price and stock must be numeric values" });
+    }
+
     try {
         const createProduct = await Product.create({ title, description, price, stock, category, imageUrl });
         res.status(201).json({
