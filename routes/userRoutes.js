@@ -4,23 +4,47 @@ const router = express.Router();
 
 const controller = new UserController();
 
-router.post("/", async (req, res) => {
-  controller.createUser(req, res);
+router.post("/", async (req, res, next) => {
+  try{
+    await controller.createUser(req, res);
+  } catch(err){
+    next(err);
+  }
 });
-router.get("/getAllUser", async (req, res) => {
- 
-  controller.getAllUsers(req, res);
-});
-router.get("/getOneUser/:id", async (req, res) => {
+
+router.get("/", async (req, res,next) => {
+ try{
+  await controller.getAllUsers(req, res);
+ }catch(err){
+  next(err);
+ }
   
-  controller.getUserById(req, res);
+});
+router.get("/:id", async (req, res, next) => {
+  try{
+    await controller.getUserById(req, res);
+  }catch(err){
+    next(err);
+  }
+  
 });
 
-router.delete('/deleteUser/:id', async (req, res) =>{
-  controller.deleteUser(req, res);
+router.delete('/:id', async (req, res, next) =>{
+  try{
+    await controller.deleteUser(req, res);
+  }catch(err){
+    next(err);
+  }
+  
 });
 
-router.put('/updateUser/:id', async (req, res) =>{
-  controller.updateUser(req, res); })
+router.put('/:id', async (req, res, next) =>{
+try{
+  controller.updateUser(req, res); 
+}
+catch(err){
+  next(err);
+}
+})
 
 module.exports = router;

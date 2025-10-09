@@ -3,10 +3,12 @@ const path = require('path');
 const dotenv = require('dotenv');
 const { connectDB } = require('./config/db'); 
 dotenv.config();
+
 const app = express();
 const port = process.env.PORT || 3000;
-
+// Middleware
 const logger = require("./middleware/logger");
+const errorHandler = require("./middleware/errorHandler");
 
 // Middleware pour parser les requêtes POST (body)
 app.use(express.urlencoded({ extended: true }));
@@ -35,6 +37,10 @@ app.use('/product', productRoutes);
 app.use((req, res, next) => {
     res.status(404).send('Page not found');
 });
+
+// Error-handling middleware
+app.use(errorHandler);
+
 
 // Démarrage du serveur
 app.listen(port, () => {

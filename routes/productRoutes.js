@@ -5,19 +5,19 @@ const controller = new ProductController();
 router.post("/", async (req, res) => {
   controller.createProduct(req, res);
 });
-router.get("/getAllProduct", async (req, res) => {
+router.get("/", async (req, res) => {
 
   controller.getAllProducts(req, res);
 });
-router.get("/getOneProduct/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
  
   controller.getProductById(req, res);
 });
 
-router.put("/updateProduct/:id", async (req, res) =>{
+router.put("/:id", async (req, res) =>{
   controller.updateProduct(req, res); });
   
-router.delete("/deleteProduct/:id", async (req, res) =>{
+router.delete("/:id", async (req, res) =>{
   controller.deleteProduct(req, res);
 });
 
