@@ -1,7 +1,8 @@
 const User = require("../models/userModel");
+const mongoose = require("mongoose");
 const BaseController = require('../core/BaseController');
 class UserController extends BaseController {
-async createUser(req, res) {
+async createUser(req, res,next) {
     const { fullname, email, password, role } = req.body;
     if (!fullname || !email || !password) {
         return res.status(400).json({ error: "fullname, email and password are required" });
@@ -20,20 +21,20 @@ async createUser(req, res) {
             user: createdUser
         });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+       next(error);
     }
 }
 
-async  getAllUsers(req, res) {
+async  getAllUsers(req, res,next) {
     try {
         const users = await User.find(); 
         res.status(200).json(users); 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+         next(error);
     }
 }
 
-async getUserById(req, res) {
+async getUserById(req, res,next) {
     try {
         const { id } = req.params; 
         
@@ -47,11 +48,11 @@ async getUserById(req, res) {
         }
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+         next(error);
     }
 }
 
-async deleteUser(req, res) {
+async deleteUser(req, res,next) {
     try {
         const { id } = req.params;
 
@@ -67,10 +68,10 @@ async deleteUser(req, res) {
         await User.findByIdAndDelete(id);
         res.status(204).send(); 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+         next(error);
     }
 }
-async updateUser(req, res) {
+async updateUser(req, res,next) {
     try {
         const { id } = req.params;
         const { fullname, email, password, role } = req.body;
@@ -96,7 +97,7 @@ async updateUser(req, res) {
             user: updatedUser
         });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+         next(error);
     }
 }
 

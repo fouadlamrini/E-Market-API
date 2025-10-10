@@ -1,7 +1,9 @@
 const Product = require("../models/productModel");
+const mongoose = require("mongoose");
 const BaseController = require("../core/BaseController");
+
 class ProductController extends BaseController {
-  async createProduct(req, res) {
+  async createProduct(req, res,next) {
     const { title, description, price, stock, category, imageUrl } = req.body;
 
     if (!title || !description || !price || !stock || !category) {
@@ -32,20 +34,20 @@ class ProductController extends BaseController {
         product: createProduct,
       });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        next(error);
     }
   }
 
-  async getAllProducts(req, res) {
+  async getAllProducts(req, res,next) {
     try {
       const products = await Product.find();
       res.status(200).json(products);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+       next(error);
     }
   }
 
-  async getProductById(req, res) {
+  async getProductById(req, res,next) {
     try {
       const { id } = req.params;
       console.log(id);
@@ -59,11 +61,11 @@ class ProductController extends BaseController {
       }
       res.status(200).json(product);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        next(error);
     }
   }
 
-  async deleteProduct(req, res) {
+  async deleteProduct(req, res,next) {
     try {
       const { id } = req.params;
       const product = await Product.findById(id);
@@ -78,11 +80,11 @@ class ProductController extends BaseController {
       await Product.findByIdAndDelete(id);
       res.status(204).send();
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        next(error);
     }
   }
 
-  async updateProduct(req, res) {
+  async updateProduct(req, res,next) {
     try {
       const { id } = req.params;
       const { title, description, price, stock, category, imageUrl } = req.body;
@@ -117,7 +119,7 @@ class ProductController extends BaseController {
         product: updatedProduct,
       });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        next(error);
     }
   }
 }
