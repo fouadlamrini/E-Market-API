@@ -6,7 +6,7 @@ const controller = new UserController();
 
 /**
  * @swagger
- * /api/users:
+ * /users:
  *   post:
  *     summary: Créer un nouvel utilisateur
  *     tags:
@@ -47,7 +47,7 @@ router.post("/", async (req, res, next) => {
 //=====================================================
 /**
  * @swagger
- * /api/users:
+ * /users:
  *   get:
  *     summary: Récupérer tous les utilisateurs
  *     tags:
@@ -67,7 +67,7 @@ router.get("/", async (req, res,next) => {
 //==================================
 /**
  * @swagger
- * /api/users/{id}:
+ * /users/{id}:
  *   get:
  *     summary: Récupérer un utilisateur par ID
  *     tags:
@@ -96,7 +96,7 @@ router.get("/:id", async (req, res, next) => {
 //===================================================
  /**
  * @swagger
- * /api/users/{id}:
+ * /users/{id}:
  *   delete:
  *     summary: Supprimer un utilisateur
  *     tags:
@@ -125,7 +125,7 @@ router.delete('/:id', async (req, res, next) =>{
 //=======================================================
 /**
  * @swagger
- * /api/users/{id}:
+ * /users/{id}:
  *   put:
  *     summary: Mettre à jour un utilisateur
  *     tags:

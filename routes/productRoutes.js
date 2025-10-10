@@ -5,7 +5,7 @@ const controller = new ProductController();
 
 /**
  * @swagger
- * /api/products:
+ * /products:
  *   post:
  *     summary: Créer un nouveau produit
  *     tags:
@@ -55,7 +55,7 @@ router.post("/", async (req, res,next) => {
 //==========================================
 /**
  * @swagger
- * /api/products:
+ * /products:
  *   get:
  *     summary: Récupérer tous les produits
  *     tags:
@@ -78,7 +78,7 @@ router.get("/", async (req, res,next) => {
 //====================================================
 /**
  * @swagger
- * /api/products/search:
+ * /products/search:
  *   get:
  *     summary: Rechercher des produits par mot clé
  *     tags:
@@ -102,7 +102,7 @@ module.exports = router;
 //============================================
 /**
  * @swagger
- * /api/products/{id}:
+ * /products/{id}:
  *   get:
  *     summary: Récupérer un produit par ID
  *     tags:
@@ -133,7 +133,7 @@ router.get("/:id", async (req, res,next) => {
 
 /**
  * @swagger
- * /api/products/{id}:
+ * /products/{id}:
  *   put:
  *     summary: Mettre à jour un produit
  *     tags:
@@ -180,7 +180,7 @@ router.put("/:id", async (req, res,next) =>{
    //=============================================
    /**
  * @swagger
- * /api/products/{id}:
+ * /products/{id}:
  *   delete:
  *     summary: Supprimer un produit
  *     tags:
