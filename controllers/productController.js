@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const BaseController = require("../core/BaseController");
 
 class ProductController extends BaseController {
+
+  //=============Creer Product================
   async createProduct(req, res,next) {
     const { title, description, price, stock, category, imageUrl } = req.body;
 
@@ -37,7 +39,7 @@ class ProductController extends BaseController {
         next(error);
     }
   }
-
+//=====================get All Product ========================
   async getAllProducts(req, res,next) {
     try {
       const products = await Product.find();
@@ -46,7 +48,7 @@ class ProductController extends BaseController {
        next(error);
     }
   }
-
+//=======================get one product========================
   async getProductById(req, res,next) {
     try {
       const { id } = req.params;
@@ -64,7 +66,7 @@ class ProductController extends BaseController {
         next(error);
     }
   }
-
+//====================delete product====================
   async deleteProduct(req, res,next) {
     try {
       const { id } = req.params;
@@ -83,7 +85,7 @@ class ProductController extends BaseController {
         next(error);
     }
   }
-
+//==============update product==================
   async updateProduct(req, res,next) {
     try {
       const { id } = req.params;
@@ -122,5 +124,39 @@ class ProductController extends BaseController {
         next(error);
     }
   }
+
+//================search product=====================
+  async searchProducts(req, res, next) {
+  try {
+    const { title, category, minPrice, maxPrice } = req.query;
+
+    let query = {};
+
+    if (title) {
+      query.title = { $regex: title, $options: "i" }; 
+    }
+
+    if (category) {
+      query.category = category;
+    }
+
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
+    }
+
+    const products = await Product.find(query);
+
+    res.status(200).json({
+      success: true,
+      count: products.length,
+      products,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 }
 module.exports = ProductController;
