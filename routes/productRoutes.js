@@ -2,23 +2,47 @@ const express = require("express");
 const ProductController = require("../controllers/ProductController");
 const router = express.Router();
 const controller = new ProductController();
-router.post("/", async (req, res) => {
-  controller.createProduct(req, res);
-});
-router.get("/", async (req, res) => {
+router.post("/", async (req, res,next) => {
 
-  controller.getAllProducts(req, res);
-});
-router.get("/:id", async (req, res) => {
- 
-  controller.getProductById(req, res);
-});
-
-router.put("/:id", async (req, res) =>{
-  controller.updateProduct(req, res); });
+  try{
+    await controller.createProduct(req, res);
+  }catch(err){
+    next(err);
+  }
   
-router.delete("/:id", async (req, res) =>{
-  controller.deleteProduct(req, res);
+});
+router.get("/", async (req, res,next) => {
+  try{
+    await controller.getAllProducts(req, res);
+  }catch(err){
+    next(err);
+  }
+  
+});
+router.get("/:id", async (req, res,next) => {
+  try{
+    controller.getProductById(req, res);
+  }catch(err){
+    next(err);
+  }
+  
+});
+
+router.put("/:id", async (req, res,next) =>{
+  try{
+    await controller.updateProduct(req, res);
+  }catch(err){
+    next(err);
+  }
+   });
+  
+router.delete("/:id", async (req, res,next) =>{
+  try{
+    await controller.deleteProduct(req, res);
+  }catch(err){
+    next(err);
+  }
+  
 });
 
 module.exports = router;

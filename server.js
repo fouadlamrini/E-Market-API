@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 // Middleware
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
-
+const notFound = require("./middleware/notFound");
 // Middleware pour parser les requêtes POST (body)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -34,9 +34,8 @@ const productRoutes = require('./routes/productRoutes');
 app.use('/product', productRoutes);
 
 // Gestion des erreurs 404
-app.use((req, res, next) => {
-    res.status(404).send('Page not found');
-});
+
+app.use(notFound);
 
 // Error-handling middleware
 app.use(errorHandler);
