@@ -15,7 +15,7 @@ class ProductController extends BaseController {
           error: "title, description, price, stock and category are required",
         });
     }
-
+ 
     if (isNaN(price) || isNaN(stock)) {
       return res
         .status(400)

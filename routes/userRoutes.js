@@ -85,7 +85,7 @@ router.get("/", async (req, res,next) => {
  *       404:
  *         description: Utilisateur non trouvé
  */
-router.get("/{id}", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try{
     await controller.getUserById(req, res);
   }catch(err){
@@ -114,7 +114,7 @@ router.get("/{id}", async (req, res, next) => {
  *       404:
  *         description: Utilisateur non trouvé
  */
-router.delete('/{id}', async (req, res, next) =>{
+router.delete('/:id', async (req, res, next) =>{
   try{
     await controller.deleteUser(req, res);
   }catch(err){
@@ -158,7 +158,7 @@ router.delete('/{id}', async (req, res, next) =>{
  *       404:
  *         description: Utilisateur non trouvé
  */
-router.put('/{id}', async (req, res, next) =>{
+router.put('/:id', async (req, res, next) =>{
 try{
   controller.updateUser(req, res); 
 }

@@ -5,7 +5,7 @@ const controller = new ProductController();
 
 /**
  * @swagger
- * /products:
+ * /product:
  *   post:
  *     summary: Créer un nouveau produit
  *     tags:
@@ -121,7 +121,7 @@ module.exports = router;
  *         description: Produit non trouvé
  */
 
-router.get("/{id}", async (req, res,next) => {
+router.get("/:id", async (req, res,next) => {
   try{
     controller.getProductById(req, res);
   }catch(err){
@@ -170,7 +170,7 @@ router.get("/{id}", async (req, res,next) => {
  *       404:
  *         description: Produit non trouvé
  */
-router.put("/{id}", async (req, res,next) =>{
+router.put("/:id", async (req, res,next) =>{
   try{
     await controller.updateProduct(req, res);
   }catch(err){
@@ -199,7 +199,7 @@ router.put("/{id}", async (req, res,next) =>{
  *         description: Produit non trouvé
  */
  
-router.delete("/{id}", async (req, res,next) =>{
+router.delete("/:id", async (req, res,next) =>{
   try{
     await controller.deleteProduct(req, res);
   }catch(err){
